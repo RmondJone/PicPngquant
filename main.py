@@ -1,5 +1,6 @@
 import os
 import threading
+from config import global_config
 
 
 # 压缩线程（同步压缩）
@@ -11,18 +12,21 @@ class CompressThread(threading.Thread):
 
     # 运行方法
     def run(self) -> None:
-        print("需要压缩的路径为：" + self.compressDir)
-        print("线程开始运行：")
+        print("线程开始运行，压缩路径为：" + self.compressDir)
         # 获得锁
         threadLock.acquire()
-        cmd = "pngquant 256 --force --ext .png " + self.compressDir + "\\*.png"
+        cmd = "pngquant 256 --quality=65-80 --skip-if-larger --force --ext .png " + self.compressDir + "\\*.png"
         os.system(cmd)
         # 释放锁
         threadLock.release()
-        print("压缩线程已结束！")
+        print("线程结束运行，压缩路径为：" + self.compressDir)
 
 
 if __name__ == '__main__':
+    configDirStr = global_config.getRaw("config", "compressDir")
+    configDir = configDirStr.split(" ")
+    print("当前配置需要压缩的文件夹为：")
+    print(configDir)
     a = """
  _____ _             _____                                     _   
 |  __ (_)           |  __ \                                   | |  
@@ -44,7 +48,7 @@ threads = []
 # 开始历遍所有子文件夹
 for root, dirs, files in os.walk(dirPath):
     for dir in dirs:
-        if dir == "drawable-xhdpi" or dir == "drawable-xxhdpi":
+        if dir in configDir:
             # 过滤编译文件夹
             if "build\generated" not in os.path.join(root, dir):
                 thread = CompressThread(os.path.join(root, dir))
