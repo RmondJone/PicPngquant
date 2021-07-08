@@ -1,7 +1,5 @@
 import os
 import threading
-from config import global_config
-
 
 # 压缩线程（同步压缩）
 class CompressThread(threading.Thread):
@@ -23,9 +21,9 @@ class CompressThread(threading.Thread):
 
 
 if __name__ == '__main__':
-    configDirStr = global_config.getRaw("config", "compressDir")
+    configDirStr = "drawable-hdpi drawable-xhdpi drawable-xxhdpi drawable-xxxhdpi mipmap-hdpi mipmap-xhdpi mipmap-xxhdpi mipmap-xxxhdpi"
     configDir = configDirStr.split(" ")
-    print("当前配置需要压缩的文件夹为：")
+    print("当前配置需要压缩的文件夹配置为：")
     print(configDir)
     a = """
  _____ _             _____                                     _   
@@ -36,11 +34,15 @@ if __name__ == '__main__':
 |_|   |_|\___|      |_|   |_| |_|\__, |\__, |\__,_|\__,_|_| |_|\__|
                                   __/ |   | |                      
                                  |___/    |_|     
-                                 
-请选择需要压缩的文件夹路径：                                    
 """
 print(a)
-dirPath = input("请输入：")
+changeConfig = input("是否需要更改默认配置(Y/N)：")
+if changeConfig == "Y":
+    configDirStr = input("请输入需要压缩的文件夹配置(多个以空格分隔)：")
+    configDir = configDirStr.split(" ")
+    print("当前配置需要压缩的文件夹配置为：")
+    print(configDir)
+dirPath = input("请选择需要压缩的文件夹路径：：")
 # 初始化线程锁
 threadLock = threading.Lock()
 # 压缩线程数组
