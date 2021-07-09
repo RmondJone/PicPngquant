@@ -36,13 +36,13 @@ if __name__ == '__main__':
                                  |___/    |_|     
 """
 print(a)
-changeConfig = input("是否需要更改默认配置(Y/N)：")
+changeConfig = input("是否需要更改默认压缩文件夹配置(Y/N)：")
 if changeConfig == "Y":
     configDirStr = input("请输入需要压缩的文件夹配置(多个以空格分隔)：")
     configDir = configDirStr.split(" ")
     print("当前配置需要压缩的文件夹配置为：")
     print(configDir)
-dirPath = input("请选择需要压缩的文件夹路径：：")
+dirPath = input("请选择需要压缩的文件夹路径：")
 # 初始化线程锁
 threadLock = threading.Lock()
 # 压缩线程数组
