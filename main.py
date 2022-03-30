@@ -41,7 +41,7 @@ if __name__ == '__main__':
                                  |___/    |_|     
 """
 print(tag)
-
+excludeDir = []
 isNeedExclude = input("是否需要配置排除压缩文件夹(Y/N)：")
 if isNeedExclude == "Y" or isNeedExclude == "y":
     excludeDirStr = input("请输入需要排除压缩的文件夹(多个以空格分隔)：")
@@ -61,6 +61,10 @@ if os.system("pngquant --version") != 0:
     print("\n未检测到pngquant命令行环境，请参照pngquant官网搭建命令行环境：https://pngquant.org/")
 else:
     dirPath = input("请选择需要压缩的文件夹路径：")
+    # 去除输入路径首位空格
+    dirPath = dirPath.rstrip()
+    dirPath = dirPath.lstrip()
+    print(dirPath)
     # 初始化线程锁
     threadLock = threading.Lock()
     # 压缩线程数组
