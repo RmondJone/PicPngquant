@@ -1,4 +1,5 @@
 import os
+import platform
 import threading
 
 
@@ -80,9 +81,13 @@ else:
             if father_name not in excludeDir:
                 # 扩展名
                 extension = os.path.splitext(childFilePath)[1][1:]
-                if extension == 'png' or extension == 'jpg' or extension == 'jpeg':
-                    addThread(root, childFile, childFilePath, extension)
-
+                if platform.system() != 'Windows':
+                    if extension == 'png' or extension == 'jpg' or extension == 'jpeg':
+                        addThread(root, childFile, childFilePath, extension)
+                else:
+                    # Windows版pngquant只支持png压缩
+                    if extension == 'png':
+                        addThread(root, childFile, childFilePath, extension)
     # 开始遍历执行压缩线程
     for thread in threads:
         thread.join()
