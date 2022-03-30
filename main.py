@@ -42,6 +42,13 @@ if __name__ == '__main__':
 """
 print(tag)
 
+isNeedExclude = input("是否需要配置排除压缩文件夹(Y/N)：")
+if isNeedExclude == "Y" or isNeedExclude == "y":
+    excludeDirStr = input("请输入需要排除压缩的文件夹(多个以空格分隔)：")
+    excludeDir = excludeDirStr.split(" ")
+    print("当前配置的排除压缩文件夹为：")
+    print(excludeDir)
+
 
 # 创建压缩线程
 def addThread(rootPath, compressFile, compressPath, extensionName):
@@ -64,10 +71,13 @@ else:
         for childFile in files:
             # 文件名
             childFilePath = os.path.join(root, childFile)
-            # 扩展名
-            extension = os.path.splitext(childFilePath)[1][1:]
-            if extension == 'png' or extension == 'jpg' or extension == 'jpeg':
-                addThread(root, childFile, childFilePath, extension)
+            father_path = os.path.abspath(os.path.dirname(childFilePath) + os.path.sep + ".")
+            father_name = os.path.basename(father_path)
+            if father_name not in excludeDir:
+                # 扩展名
+                extension = os.path.splitext(childFilePath)[1][1:]
+                if extension == 'png' or extension == 'jpg' or extension == 'jpeg':
+                    addThread(root, childFile, childFilePath, extension)
 
     # 开始遍历执行压缩线程
     for thread in threads:
