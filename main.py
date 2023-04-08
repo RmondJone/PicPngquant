@@ -54,10 +54,5 @@ else:
             if father_name not in excludeDir:
                 # 扩展名
                 extension = os.path.splitext(childFilePath)[1][1:]
-                if platform.system() != 'Windows':
-                    if extension == 'png' or extension == 'jpg' or extension == 'jpeg':
-                        startCompress(root, childFile, childFilePath, extension)
-                else:
-                    # Windows版pngquant只支持png压缩
-                    if extension == 'png':
-                        startCompress(root, childFile, childFilePath, extension)
+                if extension == 'png':
+                    startCompress(root, childFile, childFilePath, extension)
